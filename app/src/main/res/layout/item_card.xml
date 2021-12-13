@@ -1,73 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:background="#03FFFFFF"
-    app:cardCornerRadius="20dp"
-    android:backgroundTint="#03FFFFFF"
-    app:cardBackgroundColor="#03EF0000"
+    android:id="@+id/cardOut"
+    android:layout_width="310dp"
+    android:layout_height="62dp"
+    android:layout_centerInParent="false"
+    android:layout_centerVertical="false"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginLeft="35dp"
+    android:layout_marginRight="35dp"
+    android:background="#00F31515"
+    android:backgroundTint="#32FFCC80"
+    android:backgroundTintMode="src_over"
+    android:drawingCacheQuality="high"
+    android:foregroundGravity="center_horizontal"
+    app:cardBackgroundColor="#66FFA726"
+    app:cardCornerRadius="25dp"
     app:cardElevation="0dp"
-    app:contentPadding="0dp">
+    app:cardMaxElevation="3dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/cardIn"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_gravity="center"
+        android:background="#00FFF0BC"
+        android:backgroundTint="#00FFE0B2"
+        android:clickable="false"
+        android:orientation="horizontal"
+        android:paddingRight="0dp"
+        app:cardBackgroundColor="#000921EA">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#009E8C68"
-            android:clickable="false"
-            android:orientation="horizontal"
-            android:scrollbars="vertical">
+        <TextView
+            android:id="@+id/student_name_card"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:layout_marginStart="0dp"
+            android:background="#00FFFFFF"
+            android:backgroundTint="#00FFFFFF"
+            android:fontFamily="@font/baloo"
+            android:foregroundGravity="center_vertical|center|center_horizontal"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="Student Name"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/student_name_card"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginStart="10dp"
-                android:background="#14A69A94"
-                android:cursorVisible="false"
-                android:elevation="1dp"
-                android:ellipsize="start"
-                android:fontFamily="@font/roboto"
-                android:paddingStart="10dp"
-                android:shadowRadius="0"
-                android:text="Student Name"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/xButton"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="3dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:backgroundTint="#00FFFFFF"
+            android:foreground="@drawable/x"
+            android:gravity="center_vertical" />
 
-            <ImageView
-                android:id="@+id/xButtonCard"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginRight="5dp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/x" />
-
-            <ImageView
-                android:id="@+id/checkButtonCard"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginRight="5dp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/check" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/checkButton"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="3dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:backgroundTint="#00FFFFFF"
+            android:foreground="@drawable/check"
+            android:gravity="center_vertical" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

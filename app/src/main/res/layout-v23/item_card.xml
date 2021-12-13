@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardOut"
     android:layout_width="310dp"
     android:layout_height="62dp"
     android:layout_centerInParent="false"
@@ -21,6 +22,7 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
+        android:id="@+id/cardIn"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -32,8 +34,8 @@
         app:cardBackgroundColor="#000921EA">
 
         <TextView
-            android:id="@+id/student_name_card_check"
-            android:layout_width="216dp"
+            android:id="@+id/student_name_card"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_marginStart="0dp"
@@ -52,6 +54,28 @@
             app:autoSizeMinTextSize="18sp"
             app:autoSizeTextType="uniform" />
 
+        <Button
+            android:id="@+id/xButton"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="3dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:backgroundTint="#00FFFFFF"
+            android:elevation="10dp"
+            android:foreground="@drawable/x"
+            android:gravity="center_vertical" />
+
+        <Button
+            android:id="@+id/checkButton"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="3dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:backgroundTint="#00FFFFFF"
+            android:foreground="@drawable/check"
+            android:gravity="center_vertical" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

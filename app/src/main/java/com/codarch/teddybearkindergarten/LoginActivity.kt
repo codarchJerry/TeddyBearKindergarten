@@ -87,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
             val editor = preferences.edit()
 
             database.execSQL("CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR, parentPhoneNumber VARCHAR, homeAddress VARCHAR, password VARCHAR)")
-            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentCheck INT, schoolCheck INT)")
+            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR,  parentName VARCHAR, parentCheck INT, schoolCheck INT)")
 
             //variables for database
             val studentName = findViewById<EditText>(R.id.studentName).text.toString()
@@ -107,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
 
             if (preferences.getString(KEY_NAME, "").equals("")) {
                 database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('${studentName}','${parentName}','${parentPhoneNumber}','${homeAddress}','${userPassword}')")
-                databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentCheck, schoolCheck) VALUES ('${studentName}',1,1)")
+                databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentName, parentCheck, schoolCheck) VALUES ('${studentName}','${parentName}',1,1)")
                 editor.putString(KEY_NAME, studentName)
                 editor.putString(KEY_PHONE, parentPhoneNumber)
                 editor.putInt(KEY_CHECK, 1)
@@ -138,7 +138,7 @@ class LoginActivity : AppCompatActivity() {
                     } else if (cursor.isLast) {
 
                         database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('${studentName}','${parentName}','${parentPhoneNumber}','${homeAddress}','${userPassword}')")
-                        databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentCheck, schoolCheck) VALUES ('${studentName}',1,1)")
+                        databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentName, parentCheck, schoolCheck) VALUES ('${studentName}','${parentName}',1,1)")
                         editor.putString(KEY_NAME, studentName)
                         editor.putString(KEY_PHONE, parentPhoneNumber)
                         editor.putInt(KEY_CHECK, 1)

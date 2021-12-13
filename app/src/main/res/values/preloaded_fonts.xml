@@ -3,9 +3,14 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/advent_pro_light</item>
         <item>@font/aguafina_script</item>
+        <item>@font/allan</item>
         <item>@font/allura</item>
         <item>@font/anaheim</item>
+        <item>@font/baloo</item>
+        <item>@font/cabin</item>
         <item>@font/cantarell</item>
+        <item>@font/chelsea_market</item>
         <item>@font/roboto</item>
+        <item>@font/ubuntu_light</item>
     </array>
 </resources>

@@ -2,7 +2,6 @@ package com.codarch.teddybearkindergarten
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +9,7 @@ import com.codarch.teddybearkindergarten.data.Adapter
 import com.codarch.teddybearkindergarten.data.model.StudentCheckModel
 
 
-class KindergartenControl : AppCompatActivity() {
+class KindergartenControl : AppCompatActivity(), Adapter.AdapterCallback {
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,29 +19,26 @@ class KindergartenControl : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         val adapter =
-            Adapter(getModels())
-
+            Adapter(getModels(), this)
         recyclerView.adapter = adapter
-
-        val xButton = findViewById<Button>(R.id.xButtonCard)
-        val checkButton = findViewById<Button>(R.id.checkButtonCard)
-
     }
+
 
     @SuppressLint("Recycle")
     fun getModels(): MutableList<StudentCheckModel> {
 
-        val models = mutableListOf(StudentCheckModel("", 1, 1))
+        val models = mutableListOf(StudentCheckModel("", "", 1, 1))
 
         try {
 
             val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
 
-            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentCheck BOOLEAN, schoolCheck BOOLEAN)")
+            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR,parentCheck BOOLEAN, schoolCheck BOOLEAN)")
             //models.add(StudentCheckModel("", 1,1 ))
 
             val cursor = databaseCheck.rawQuery("SELECT * FROM studentsCheck", null)
             val studentNameIx = cursor.getColumnIndex("studentName")
+            val parentNameIx = cursor.getColumnIndex("parentName")
             val parentCheckIx = cursor.getColumnIndex("parentCheck")
             val schoolCheckIx = cursor.getColumnIndex("schoolCheck")
 
@@ -53,6 +49,7 @@ class KindergartenControl : AppCompatActivity() {
                         0,
                         StudentCheckModel(
                             cursor.getString(studentNameIx),
+                            cursor.getString(parentNameIx),
                             cursor.getInt(parentCheckIx),
                             cursor.getInt(schoolCheckIx)
                         )
@@ -61,6 +58,7 @@ class KindergartenControl : AppCompatActivity() {
                     models.add(
                         StudentCheckModel(
                             cursor.getString(studentNameIx),
+                            cursor.getString(parentNameIx),
                             cursor.getInt(parentCheckIx),
                             cursor.getInt(schoolCheckIx)
                         )
@@ -73,5 +71,20 @@ class KindergartenControl : AppCompatActivity() {
         }
 
         return models
+    }
+
+    override fun onClickX() {
+        /*val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
+        databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR,parentCheck BOOLEAN, schoolCheck BOOLEAN)")*/
+        println("//////////////////////////////////////////////////////////////////////////")
+
+
+    }
+
+    override fun onClickCheck() {
+        /*val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
+        databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR,parentCheck BOOLEAN, schoolCheck BOOLEAN)")*/
+        println("***********************************************************************")
+
     }
 }

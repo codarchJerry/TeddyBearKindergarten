@@ -21,20 +21,32 @@ class MainActivity : AppCompatActivity() {
             val database = this.openOrCreateDatabase("Students", MODE_PRIVATE, null)
             val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
             database.execSQL("CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR, parentPhoneNumber VARCHAR, homeAddress VARCHAR, password VARCHAR)")
-            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentCheck INT, schoolCheck INT)")
-            }
-        catch (e: Exception){
+            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR, parentCheck INT, schoolCheck INT)")
+            database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('Student Name','Parent Name','Phone Number','Address','Password')")
+            database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('Student 1 Name','Parent 1 Name','Phone 1 Number','Address 1','Password1')")
+            databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentName,parentCheck, schoolCheck) VALUES ('Student Name','Parent Name',1,1)")
+            databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentName, parentCheck, schoolCheck) VALUES ('Student 1 Name','Parent 1 Name',1,1)")
+
+
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
 
         val preferences = getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
         var sit = "Gelecek"
-        if(preferences.getInt(KEY_CHECK,1) == 0)
+        if (preferences.getInt(KEY_CHECK, 1) == 0)
             sit = "Gelmeyecek"
 
-        Toast.makeText(applicationContext, "Öğrenci İsmi : ${preferences.getString(KEY_NAME, "")}\n" +
-                "Telefon : ${preferences.getString(KEY_PHONE, "")}\n" + "Gelme durumu :  $sit\n", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            applicationContext, "Öğrenci İsmi : ${preferences.getString(KEY_NAME, "")}\n" +
+                    "Telefon : ${
+                        preferences.getString(
+                            KEY_PHONE,
+                            ""
+                        )
+                    }\n" + "Gelme durumu :  $sit\n", Toast.LENGTH_SHORT
+        ).show()
     }
 
     fun register(view: View) {

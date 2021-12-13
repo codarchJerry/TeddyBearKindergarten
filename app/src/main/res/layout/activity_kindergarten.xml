@@ -11,25 +11,24 @@
         android:id="@+id/imageView4"
         android:layout_width="148dp"
         android:layout_height="130dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="108dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/teddybear" />
 
     <TextView
         android:id="@+id/textView12"
-        android:layout_width="148dp"
-        android:layout_height="43dp"
+        android:layout_width="149dp"
+        android:layout_height="40dp"
         android:fontFamily="@font/allura"
         android:text="Teddy Bear"
         android:textAlignment="center"
         android:textColor="@color/title_color"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
+        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
@@ -45,28 +44,24 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.156"
+        app:layout_constraintHorizontal_bias="0.122"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12"
         app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="298dp"
-        android:layout_height="400dp"
-        android:layout_marginStart="48dp"
-        android:background="#00FFFFFF"
-        android:backgroundTint="#00FFFFFF"
+        android:layout_width="377dp"
+        android:layout_height="452dp"
+        android:layout_marginStart="8dp"
         android:clickable="true"
-        android:clipToPadding="false"
-        android:dividerPadding="5dp"
+        android:dividerPadding="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.743"
+        app:layout_constraintTop_toBottomOf="@+id/textView11"
         tools:context=".KindergartenControl">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -79,6 +74,33 @@
             android:clipChildren="false"
             android:clipToPadding="true"
             android:focusable="auto"
-            android:scrollbars="vertical" />
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            android:verticalScrollbarPosition="right" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="220dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="225dp"
+        android:fontFamily="@font/cantarell"
+        android:text="Öğrenci Listesi"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/title_color"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
