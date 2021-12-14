@@ -106,8 +106,8 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="196dp"
-        android:layout_height="50dp"
+        android:layout_width="212dp"
+        android:layout_height="51dp"
         android:layout_gravity="start"
         android:background="@drawable/rounded_rectangle"
         android:clickable="true"

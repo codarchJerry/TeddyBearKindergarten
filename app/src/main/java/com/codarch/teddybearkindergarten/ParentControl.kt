@@ -33,7 +33,7 @@ class ParentControl : AppCompatActivity() {
 
         dateText.text = current.format(formatter)
 
-        if (preferences.getInt(KEY_CHECK, 1) == 0) {
+        if (preferences.getInt(KEY_CHECK, 1) == 1) {
             situationText.text = getString(R.string.parentCheckFeedback)
 
         } else {

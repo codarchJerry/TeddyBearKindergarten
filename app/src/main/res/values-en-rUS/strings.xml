@@ -12,7 +12,7 @@
     <string name="phoneHint">PARENT PHONE NUMBER</string>
     <string name="adressHint">ADDRESS</string>
     <string name="passwordHint">PASSWORD</string>
-    <string name="registerButton">SIGN UP - SIGN IN</string>
+    <string name="registerButton">SIGN UP-SIGN IN</string>
     <string name="parentCheckFeedback">(Student registered as WILL COME at school)</string>
     <string name="parentXFeedback">(Student registered as WON\'T COME at school)</string>
     <string name="checkButton">WILL COME</string>

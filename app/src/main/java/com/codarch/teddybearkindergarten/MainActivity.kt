@@ -36,10 +36,10 @@ class MainActivity : AppCompatActivity() {
             val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
             database.execSQL("CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR, parentPhoneNumber VARCHAR, homeAddress VARCHAR, password VARCHAR)")
             databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentCheck INT, schoolCheck INT)")
-            /*database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('Student Name','Parent Name','Phone Number','Address','Password')")
-            database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('Student 1 Name','Parent 1 Name','Phone 1 Number','Address 1','Password1')")
-            databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentCheck, schoolCheck) VALUES ('Student Name',1,1)")
-            databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentCheck, schoolCheck) VALUES ('Student 1 Name',1,1)")*/
+            /*database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('Student 6 Name','Parent 6 Name','Phone Number','Address','Password')")
+            database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('Student 7 Name','Parent 7 Name','Phone 5 Number','Address 1','Password1')")
+            databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentCheck, schoolCheck) VALUES ('Student 6 Name',1,1)")
+            databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentCheck, schoolCheck) VALUES ('Student 7 Name',1,1)")*/
 
         } catch (e: Exception) {
             e.printStackTrace()
