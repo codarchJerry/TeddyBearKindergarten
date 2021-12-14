@@ -26,18 +26,16 @@ class CheckStudent : AppCompatActivity() {
     @SuppressLint("Recycle")
     fun getModels(): MutableList<StudentCheckModel> {
 
-        val models = mutableListOf(StudentCheckModel("", "",1, 1))
+        val models = mutableListOf(StudentCheckModel("", 1, 1))
 
         try {
 
             val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
 
-            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR,parentName VARCHAR, parentCheck BOOLEAN, schoolCheck BOOLEAN)")
-            //models.add(StudentCheckModel("", 1,1 ))
+            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentCheck BOOLEAN, schoolCheck BOOLEAN)")
 
             val cursor = databaseCheck.rawQuery("SELECT * FROM studentsCheck", null)
             val studentNameIx = cursor.getColumnIndex("studentName")
-            val parentNameIx = cursor.getColumnIndex("parentName")
             val parentCheckIx = cursor.getColumnIndex("parentCheck")
             val schoolCheckIx = cursor.getColumnIndex("schoolCheck")
 
@@ -48,7 +46,6 @@ class CheckStudent : AppCompatActivity() {
                         0,
                         StudentCheckModel(
                             cursor.getString(studentNameIx),
-                            cursor.getString(parentNameIx),
                             cursor.getInt(parentCheckIx),
                             cursor.getInt(schoolCheckIx)
                         )
@@ -57,7 +54,6 @@ class CheckStudent : AppCompatActivity() {
                     models.add(
                         StudentCheckModel(
                             cursor.getString(studentNameIx),
-                            cursor.getString(parentNameIx),
                             cursor.getInt(parentCheckIx),
                             cursor.getInt(schoolCheckIx)
                         )

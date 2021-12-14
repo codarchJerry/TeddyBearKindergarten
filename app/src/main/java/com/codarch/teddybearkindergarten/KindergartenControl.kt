@@ -27,18 +27,17 @@ class KindergartenControl : AppCompatActivity(), Adapter.AdapterCallback {
     @SuppressLint("Recycle")
     fun getModels(): MutableList<StudentCheckModel> {
 
-        val models = mutableListOf(StudentCheckModel("", "", 1, 1))
+        val models = mutableListOf(StudentCheckModel("", 1, 1))
 
         try {
 
             val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
 
-            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR,parentCheck BOOLEAN, schoolCheck BOOLEAN)")
+            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, parentName VARCHAR,parentCheck BOOLEAN, schoolCheck BOOLEAN)")
             //models.add(StudentCheckModel("", 1,1 ))
 
             val cursor = databaseCheck.rawQuery("SELECT * FROM studentsCheck", null)
             val studentNameIx = cursor.getColumnIndex("studentName")
-            val parentNameIx = cursor.getColumnIndex("parentName")
             val parentCheckIx = cursor.getColumnIndex("parentCheck")
             val schoolCheckIx = cursor.getColumnIndex("schoolCheck")
 
@@ -49,7 +48,6 @@ class KindergartenControl : AppCompatActivity(), Adapter.AdapterCallback {
                         0,
                         StudentCheckModel(
                             cursor.getString(studentNameIx),
-                            cursor.getString(parentNameIx),
                             cursor.getInt(parentCheckIx),
                             cursor.getInt(schoolCheckIx)
                         )
@@ -58,7 +56,6 @@ class KindergartenControl : AppCompatActivity(), Adapter.AdapterCallback {
                     models.add(
                         StudentCheckModel(
                             cursor.getString(studentNameIx),
-                            cursor.getString(parentNameIx),
                             cursor.getInt(parentCheckIx),
                             cursor.getInt(schoolCheckIx)
                         )
@@ -73,18 +70,37 @@ class KindergartenControl : AppCompatActivity(), Adapter.AdapterCallback {
         return models
     }
 
-    override fun onClickX() {
-        /*val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
-        databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR,parentCheck BOOLEAN, schoolCheck BOOLEAN)")*/
-        println("//////////////////////////////////////////////////////////////////////////")
+    @SuppressLint("Recycle")
+    override fun onClickX(position: Int) {
+        val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
+        databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY,parentName VARCHAR,parentCheck BOOLEAN, schoolCheck BOOLEAN)")
 
+        val cursor = databaseCheck.rawQuery("SELECT * FROM studentsCheck", null)
+
+        //variables for cursor
+        val idIx = cursor.getColumnIndex("id")
+        val studentNameIx = cursor.getColumnIndex("studentName")
+        val parentCheckIx = cursor.getColumnIndex("parentCheck")
+        val schoolCheckIx = cursor.getColumnIndex("schoolCheck")
+
+        databaseCheck.execSQL("UPDATE studentsCheck SET schoolCheck = 0 WHERE id = ${position + 1}")
 
     }
 
-    override fun onClickCheck() {
-        /*val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
-        databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR,parentCheck BOOLEAN, schoolCheck BOOLEAN)")*/
-        println("***********************************************************************")
+    @SuppressLint("Recycle")
+    override fun onClickCheck(position: Int) {
+        val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
+        databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY,parentName VARCHAR,parentCheck BOOLEAN, schoolCheck BOOLEAN)")
+
+        val cursor = databaseCheck.rawQuery("SELECT * FROM studentsCheck", null)
+
+        //variables for cursor
+        val idIx = cursor.getColumnIndex("id")
+        val studentNameIx = cursor.getColumnIndex("studentName")
+        val parentCheckIx = cursor.getColumnIndex("parentCheck")
+        val schoolCheckIx = cursor.getColumnIndex("schoolCheck")
+
+        databaseCheck.execSQL("UPDATE studentsCheck SET schoolCheck = 1 WHERE id = ${position + 1}")
 
     }
 }

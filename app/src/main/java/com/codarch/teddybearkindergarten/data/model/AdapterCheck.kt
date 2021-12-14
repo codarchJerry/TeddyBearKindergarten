@@ -1,4 +1,5 @@
 package com.codarch.teddybearkindergarten.data.model
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,9 @@ class AdapterCheck(private val studentList: MutableList<StudentCheckModel>) : Re
 
         fun bindItems(item: StudentCheckModel) {
             studentName.text = item.studentName
+            if(item.schoolCheck == 0){
+                studentName.setTextColor(Color.parseColor("#e93b2d"))
+            }
         }
 
     }
@@ -32,7 +36,6 @@ class AdapterCheck(private val studentList: MutableList<StudentCheckModel>) : Re
 
     override fun onBindViewHolder(holder: ModelViewHolder, position: Int) {
         holder.bindItems(studentList[position])
-
 
     }
 

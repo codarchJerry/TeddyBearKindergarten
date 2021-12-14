@@ -2,6 +2,7 @@ package com.codarch.teddybearkindergarten
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.widget.ImageView
@@ -33,10 +34,10 @@ class ParentControl : AppCompatActivity() {
         dateText.text = current.format(formatter)
 
         if (preferences.getInt(KEY_CHECK, 1) == 0) {
-            situationText.text = "(Öğrenci okula GELMEYECEK olarak kayıtlı)"
+            situationText.text = getString(R.string.parentCheckFeedback)
 
         } else {
-            situationText.text = "(Öğrenci okula GELECEK olarak kayıtlı)"
+            situationText.text = getString(R.string.parentXFeedback)
 
         }
 
@@ -60,12 +61,14 @@ class ParentControl : AppCompatActivity() {
                 )
                 Toast.makeText(
                     applicationContext,
-                    "Gelecektir olarak ayarlandı",
+                    getString(R.string.parentCheckFeedback),
                     Toast.LENGTH_SHORT
                 )
                     .show()
-                situationText.text = "(Öğrenci okula GELECEK olarak kayıtlı)"
+                situationText.text = getString(R.string.parentCheckFeedback)
 
+                findViewById<TextView>(R.id.textView8).setTextColor(Color.parseColor("#489644"))
+                findViewById<TextView>(R.id.textView9).setTextColor(Color.parseColor("#675F59"))
 
             }
             xButton.setOnClickListener {
@@ -82,12 +85,14 @@ class ParentControl : AppCompatActivity() {
                 )
                 Toast.makeText(
                     applicationContext,
-                    "Gelmeyecektir olarak ayarlandı",
+                    getString(R.string.parentXFeedback),
                     Toast.LENGTH_SHORT
                 )
                     .show()
-                situationText.text = "(Öğrenci okula GELMEYECEK olarak kayıtlı)"
+                situationText.text = getString(R.string.parentXFeedback)
 
+                findViewById<TextView>(R.id.textView8).setTextColor(Color.parseColor("#675F59"))
+                findViewById<TextView>(R.id.textView9).setTextColor(Color.parseColor("#e93b2d"))
             }
         } catch (e: Exception) {
             e.printStackTrace()

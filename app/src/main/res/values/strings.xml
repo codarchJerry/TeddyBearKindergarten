@@ -1,12 +1,25 @@
 <resources>
     <string name="app_name">Teddy Bear Kindergarten</string>
-    <string name="title_activity_register">RegisterActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="kindergarten">ANAOKULLARI</string>
+    <string name="registerA">ÖĞRENCİ KAYIT</string>
+    <string name="parentA">VELİ KONTROL</string>
+    <string name="schoolA">OKUL KONTROL</string>
+    <string name="checkA">KARŞILAŞTIRMA TABLOSU</string>
+    <string name="registerTitle">KAYIT</string>
+    <string name="studentNameHint">ÖĞRENCİ AD-SOYAD</string>
+    <string name="parentNameHint">VELİ AD-SOYAD</string>
+    <string name="phoneHint">VELİ TELEFON NO</string>
+    <string name="adressHint">SERVİS BİLGİLERİ</string>
+    <string name="passwordHint">ŞİFRE</string>
+    <string name="registerButton">KAYIT - GİRİŞ</string>
+    <string name="parentOf">VELİSİ BULUNDUĞUM</string>
+    <string name="atDateToSchool">TARİHİNDE OKULA</string>
+    <string name="parentCheckFeedback">(Öğrenci okula GELECEK olarak kayıtlı)</string>
+    <string name="parentXFeedback">(Öğrenci okula GELMEYECEK olarak kayıtlı)</string>
+    <string name="checkButton">GELECEKTİR</string>
+    <string name="xButton">GELMEYECEKTİR</string>
+    <string name="studentList">ÖĞRENCİ LİSTESİ</string>
+    <string name="registerSuccess">Kayıt Başarılı!</string>
+    <string name="loginSuccess">Giriş Başarılı!</string>
+
 </resources>

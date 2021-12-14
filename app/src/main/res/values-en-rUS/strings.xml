@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Teddy Bear Kindergarten</string>
+    <string name="kindergarten">KINDERGARTEN</string>
+    <string name="registerA">STUDENT REGISTER</string>
+    <string name="parentA">PARENT CONTROL</string>
+    <string name="schoolA">SCHOOL CONTROL</string>
+    <string name="checkA">COMPARISON TABLE</string>
+    <string name="registerTitle">REGISTER</string>
+    <string name="studentNameHint">STUDENT NAME</string>
+    <string name="parentNameHint">PARENT NAME</string>
+    <string name="phoneHint">PARENT PHONE NUMBER</string>
+    <string name="adressHint">ADDRESS</string>
+    <string name="passwordHint">PASSWORD</string>
+    <string name="registerButton">SIGN UP - SIGN IN</string>
+    <string name="parentCheckFeedback">(Student registered as WILL COME at school)</string>
+    <string name="parentXFeedback">(Student registered as WON\'T COME at school)</string>
+    <string name="checkButton">WILL COME</string>
+    <string name="xButton">WON\'T COME</string>
+    <string name="studentList">STUDENT LIST</string>
+    <string name="loginSuccess">Login successful!</string>
+    <string name="atDateToSchool">" "</string>
+    <string name="registerSuccess">Registration successful!</string>
+    <string name="parentOf">" "</string>
+</resources>
