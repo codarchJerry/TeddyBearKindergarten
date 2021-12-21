@@ -8,6 +8,37 @@
     tools:context=".CheckStudent">
 
 
+    <Button
+        android:id="@+id/datePickerButton3"
+        android:layout_width="125dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="108dp"
+        android:backgroundTint="@color/button_color"
+        android:text="Tarih"
+        android:textAlignment="center"
+        android:textColor="@color/title_color"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.336"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dateText3"
+        android:layout_width="125dp"
+        android:layout_height="34dp"
+        android:text="20.05.2021"
+        android:textAlignment="center"
+        android:textColor="@color/title_color"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.336"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/datePickerButton3"
+        app:layout_constraintVertical_bias="0.09" />
+
     <TextView
         android:id="@+id/textView10"
         android:layout_width="220dp"

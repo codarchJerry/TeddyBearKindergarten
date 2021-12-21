@@ -3,18 +3,22 @@ package com.codarch.teddybearkindergarten
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.Boolean.FALSE
 import java.lang.Boolean.TRUE
+import java.time.LocalDate
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 
 class LoginActivity : AppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +76,8 @@ class LoginActivity : AppCompatActivity() {
             isValidPassword(userPassword) -> {
                 Toast.makeText(
                     applicationContext,
-                    "Password must contain at least :\n1 Lowercase \n1 Uppercase \n1 Number\nMinimum 8 Character",
-                    Toast.LENGTH_SHORT
+                    "Password must contain at least :\n1 Lowercase \n1 Uppercase \n1 Number\nMinimum 8 Character\n No special characters",
+                    Toast.LENGTH_SHORT,
                 )
                     .show()
                 return FALSE
@@ -82,16 +86,18 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun isValidPassword(password: String?): Boolean {
+    private fun isValidPassword(password: String?): Boolean {
+
         val pattern: Pattern
         val matcher: Matcher
-        val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$"
+        val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.*[@#\$%^&+=])(?=\\S+$).{4,}$"
         pattern = Pattern.compile(PASSWORD_PATTERN)
         matcher = pattern.matcher(password)
         return matcher.matches().not()
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("Recycle")
     private fun register() {
 
@@ -103,7 +109,8 @@ class LoginActivity : AppCompatActivity() {
             val editor = preferences.edit()
 
             database.execSQL("CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentName VARCHAR, parentName VARCHAR, parentPhoneNumber VARCHAR, homeAddress VARCHAR, password VARCHAR)")
-            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, studentName VARCHAR, parentCheck INT, schoolCheck INT)")
+            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, day DATE, studentName VARCHAR, parentCheck INT, schoolCheck INT, studentId INT)")
+
 
             //variables for database
             val studentName = findViewById<EditText>(R.id.studentName).text.toString()
@@ -118,16 +125,37 @@ class LoginActivity : AppCompatActivity() {
             val studentNameIx = cursor.getColumnIndex("studentName")
             val parentNameIx = cursor.getColumnIndex("parentName")
             val phoneNumberIx = cursor.getColumnIndex("parentPhoneNumber")
-            val homeAddressIx = cursor.getColumnIndex("homeAddress")
             val passwordIx = cursor.getColumnIndex("password")
+
 
             if (preferences.getString(KEY_NAME, "").equals("")) {
                 database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('${studentName}','${parentName}','${parentPhoneNumber}','${homeAddress}','${userPassword}')")
-                databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentCheck, schoolCheck) VALUES ('${studentName}',1,1)")
+
+                val tempCursor1 = database.rawQuery(
+                    "SELECT * FROM students", null
+                )
+                val tempIdIx = tempCursor1.getColumnIndex("id")
+
+                while (tempCursor1.moveToNext()) {
+                    if(tempCursor1.isLast){
+                        databaseCheck.execSQL(
+                            "INSERT INTO studentsCheck (day, studentName, parentCheck, schoolCheck, studentId) VALUES ('${
+                                LocalDate.now()
+                            }','${studentName}', null, null,${tempCursor1.getInt(tempIdIx) })"
+                        )
+                        break
+                    }
+                    else
+                        continue
+
+                }
+
                 editor.putString(KEY_NAME, studentName)
+                editor.putInt(KEY_ID, tempCursor1.getInt(tempIdIx))
                 editor.putString(KEY_PHONE, parentPhoneNumber)
                 editor.putInt(KEY_CHECK, 1)
                 editor.apply()
+                tempCursor1.close()
                 Toast.makeText(
                     applicationContext,
                     getString(R.string.registerSuccess),
@@ -151,6 +179,7 @@ class LoginActivity : AppCompatActivity() {
                     ) {
 
                         editor.putString(KEY_NAME, studentName)
+                        editor.putInt(KEY_ID, cursor.getInt(idIx))
                         editor.putString(KEY_PHONE, parentPhoneNumber)
                         editor.putInt(KEY_CHECK, 1)
                         editor.apply()
@@ -160,9 +189,6 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                        println("Name: " + cursor.getString(studentNameIx))
-                        println("Parent Name: " + cursor.getString(parentNameIx))
-                        println("Phone: " + cursor.getString(phoneNumberIx))
                         val intent = Intent(
                             applicationContext,
                             ParentControl::class.java
@@ -171,11 +197,31 @@ class LoginActivity : AppCompatActivity() {
                         finish()
                         break
 
+                    } else if (cursor.getString(studentNameIx)
+                            .equals(studentName) && cursor.getString(
+                            parentNameIx
+                        ).equals(parentName)
+                    ) {
+
+                        Toast.makeText(
+                            applicationContext,
+                            getString(R.string.sameName),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        break
                     } else if (cursor.isLast) {
 
                         database.execSQL("INSERT INTO students (studentName, parentName, parentPhoneNumber, homeAddress, password) VALUES ('${studentName}','${parentName}','${parentPhoneNumber}','${homeAddress}','${userPassword}')")
-                        databaseCheck.execSQL("INSERT INTO studentsCheck (studentName, parentCheck, schoolCheck) VALUES ('${studentName}',1,1)")
+                        databaseCheck.execSQL(
+                            "INSERT INTO studentsCheck (day, studentName, parentCheck, schoolCheck, studentId) VALUES ('${
+                                LocalDate.now()
+                            }','${studentName}', null, null,${
+                                cursor.getInt(idIx)+1
+                            })"
+                        )
                         editor.putString(KEY_NAME, studentName)
+                        editor.putInt(KEY_ID, cursor.getInt(idIx))
                         editor.putString(KEY_PHONE, parentPhoneNumber)
                         editor.putInt(KEY_CHECK, 1)
                         editor.apply()
@@ -185,9 +231,7 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                        println("Name: " + cursor.getString(studentNameIx))
-                        println("Parent Name: " + cursor.getString(parentNameIx))
-                        println("Phone: " + cursor.getString(phoneNumberIx))
+
                         val intent = Intent(
                             applicationContext,
                             ParentControl::class.java

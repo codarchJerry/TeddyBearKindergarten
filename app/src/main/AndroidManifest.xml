@@ -11,7 +11,8 @@
         android:theme="@style/Theme.TeddyBearKindergarten">
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.TeddyBearKindergarten.NoActionBar" />
         <activity
             android:name=".CheckStudent"
             android:exported="false"

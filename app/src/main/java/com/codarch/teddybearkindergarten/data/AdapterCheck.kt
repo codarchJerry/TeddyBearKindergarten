@@ -1,4 +1,5 @@
-package com.codarch.teddybearkindergarten.data.model
+package com.codarch.teddybearkindergarten.data
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.codarch.teddybearkindergarten.R
 
 
-class AdapterCheck(private val studentList: MutableList<StudentCheckModel>) : RecyclerView.Adapter<AdapterCheck.ModelViewHolder>() {
+class AdapterCheck(private var studentList: MutableList<StudentCheckModel>) : RecyclerView.Adapter<AdapterCheck.ModelViewHolder>() {
 
     class ModelViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val studentName: TextView = view.findViewById(R.id.student_name_card_check)
@@ -18,6 +19,12 @@ class AdapterCheck(private val studentList: MutableList<StudentCheckModel>) : Re
             studentName.text = item.studentName
             if(item.schoolCheck == 0){
                 studentName.setTextColor(Color.parseColor("#e93b2d"))
+            }
+            else if(item.schoolCheck != item.parentCheck){
+                studentName.setTextColor(Color.parseColor("#80000000"))
+            }
+            else if(item.schoolCheck == null || item.parentCheck == null){
+                studentName.setTextColor(Color.parseColor("#FFFFFFFF"))
             }
         }
 
@@ -37,6 +44,12 @@ class AdapterCheck(private val studentList: MutableList<StudentCheckModel>) : Re
     override fun onBindViewHolder(holder: ModelViewHolder, position: Int) {
         holder.bindItems(studentList[position])
 
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun update(modelList:MutableList<StudentCheckModel>){
+        studentList = modelList
+        notifyDataSetChanged()
     }
 
 

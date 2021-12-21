@@ -1,5 +1,6 @@
 package com.codarch.teddybearkindergarten.data
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -9,11 +10,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.codarch.teddybearkindergarten.R
-import com.codarch.teddybearkindergarten.data.model.StudentCheckModel
 
 
 class Adapter(
-    private val studentList: MutableList<StudentCheckModel>, context: Context
+    private var studentList: MutableList<StudentCheckModel>, context: Context
 ) :
 
     RecyclerView.Adapter<Adapter.LandmarkHolder>() {
@@ -72,6 +72,12 @@ class Adapter(
     interface AdapterCallback {
         fun onClickCheck(position: Int)
         fun onClickX(position: Int)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun update(modelList:MutableList<StudentCheckModel>){
+        studentList = modelList
+        notifyDataSetChanged()
     }
 
 }

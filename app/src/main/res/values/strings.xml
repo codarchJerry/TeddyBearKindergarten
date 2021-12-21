@@ -21,5 +21,6 @@
     <string name="studentList">ÖĞRENCİ LİSTESİ</string>
     <string name="registerSuccess">Kayıt Başarılı!</string>
     <string name="loginSuccess">Giriş Başarılı!</string>
+    <string name="sameName">Öğrenci zaten mevcut!</string>
 
 </resources>
