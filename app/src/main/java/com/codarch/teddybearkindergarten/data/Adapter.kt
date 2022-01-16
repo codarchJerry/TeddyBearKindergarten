@@ -50,18 +50,18 @@ class Adapter(
         xButton.setOnClickListener {
 
             try {
-                adapterCallback!!.onClickX(position)
+                adapterCallback!!.onClickX(studentList[position])
                 holder.itemView.findViewById<TextView>(R.id.student_name_card)
                     .setTextColor(Color.parseColor("#e93b2d"))
 
-                } catch (e: ClassCastException) {
-                }
+            } catch (e: ClassCastException) {
+            }
         }
 
         checkButton.setOnClickListener {
 
             try {
-                adapterCallback!!.onClickCheck(position)
+                adapterCallback!!.onClickCheck(studentList[position])
                 holder.itemView.findViewById<TextView>(R.id.student_name_card)
                     .setTextColor(Color.parseColor("#489644"))
             } catch (e: ClassCastException) {
@@ -70,12 +70,12 @@ class Adapter(
     }
 
     interface AdapterCallback {
-        fun onClickCheck(position: Int)
-        fun onClickX(position: Int)
+        fun onClickCheck(student: StudentCheckModel)
+        fun onClickX(student: StudentCheckModel)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun update(modelList:MutableList<StudentCheckModel>){
+    fun update(modelList: MutableList<StudentCheckModel>) {
         studentList = modelList
         notifyDataSetChanged()
     }

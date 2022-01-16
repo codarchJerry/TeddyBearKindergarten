@@ -23,4 +23,5 @@
     <string name="registerSuccess">Registration successful!</string>
     <string name="parentOf">" "</string>
     <string name="sameName">The student already exists!</string>
+    <string name="activityButton">ACTIVITIES</string>
 </resources>

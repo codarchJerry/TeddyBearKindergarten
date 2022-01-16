@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeddyBearKindergarten">
         <activity
+            android:name=".Activities"
+            android:exported="false"
+            android:theme="@style/Theme.TeddyBearKindergarten.NoActionBar" />
+
+        <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.TeddyBearKindergarten.NoActionBar" />

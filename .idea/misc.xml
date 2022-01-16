@@ -9,6 +9,8 @@
         <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/layout-v23/item_card.xml" value="0.25" />
         <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/layout-w1240dp/activity_register.xml" value="0.17269076305220885" />
         <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/layout-w936dp/activity_register.xml" value="0.1" />
+        <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/layout/activity_activities.xml" value="0.25" />
+        <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/layout/activity_card.xml" value="0.5" />
         <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/layout/activity_check.xml" value="0.33" />
         <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/layout/activity_kindergarten.xml" value="0.33" />
         <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/layout/activity_login.xml" value="0.33" />
@@ -20,6 +22,11 @@
         <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/layout/spinner_right_aligned.xml" value="0.1" />
         <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1734375" />
         <entry key="..\:/dev/flutter_projects/teddy_bear_kindergarten/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.15546875" />
+        <entry key="..\:/dev/kotlin_projects/teddy_bear_kindergarten/app/src/main/res/layout-v23/item_card.xml" value="0.157421875" />
+        <entry key="..\:/dev/kotlin_projects/teddy_bear_kindergarten/app/src/main/res/layout/activity_activities.xml" value="0.25" />
+        <entry key="..\:/dev/kotlin_projects/teddy_bear_kindergarten/app/src/main/res/layout/activity_card.xml" value="0.33" />
+        <entry key="..\:/dev/kotlin_projects/teddy_bear_kindergarten/app/src/main/res/layout/activity_check.xml" value="0.26171875" />
+        <entry key="..\:/dev/kotlin_projects/teddy_bear_kindergarten/app/src/main/res/layout/item_card.xml" value="0.157421875" />
       </map>
     </option>
   </component>

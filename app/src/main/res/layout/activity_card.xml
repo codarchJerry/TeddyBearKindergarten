@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardOut"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="false"
+    android:layout_centerVertical="false"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginLeft="35dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="35dp"
+    android:layout_marginBottom="15dp"
+    android:background="#00F31515"
+    android:backgroundTint="#32FFCC80"
+    android:backgroundTintMode="add"
+    android:drawingCacheQuality="high"
+    android:foregroundGravity="center_horizontal"
+    app:cardBackgroundColor="#66FFA726"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="0dp"
+    app:cardMaxElevation="3dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:id="@+id/cardIn"
+        android:layout_width="317dp"
+        android:layout_height="376dp"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:layout_marginTop="5dp"
+        android:background="#00FFF0BC"
+        android:backgroundTint="#00FFE0B2"
+        android:clickable="false"
+        android:orientation="vertical"
+        android:paddingRight="0dp"
+        app:cardBackgroundColor="#000921EA">
+
+        <ImageView
+            android:id="@+id/activityImage"
+            android:layout_width="210dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="3dp"
+            app:srcCompat="@drawable/teddybear" />
+
+        <TextView
+            android:id="@+id/activityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="15dp"
+            android:background="#00FFFFFF"
+            android:backgroundTint="#00FFFFFF"
+            android:fontFamily="@font/baloo"
+            android:foregroundGravity="center_vertical|center|center_horizontal"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="Avtivity"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="20.05.2021"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/xButton"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:backgroundTint="#00FFFFFF"
+                android:foreground="@drawable/x"
+                android:gravity="center_vertical" />
+
+            <Button
+                android:id="@+id/checkButton"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="3dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:backgroundTint="#00FFFFFF"
+                android:foreground="@drawable/check"
+                android:gravity="center_vertical" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

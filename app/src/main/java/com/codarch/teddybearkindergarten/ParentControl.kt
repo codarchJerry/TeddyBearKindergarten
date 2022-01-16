@@ -2,7 +2,6 @@ package com.codarch.teddybearkindergarten
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.database.Cursor
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -12,18 +11,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.codarch.teddybearkindergarten.data.CheckDatabaseHandler
 import com.codarch.teddybearkindergarten.data.DatePickerHelper
+import com.codarch.teddybearkindergarten.data.StudentCheckModel
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.Month
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
 class ParentControl : AppCompatActivity() {
     @SuppressLint("WrongViewCast", "CommitPrefEdits", "Recycle")
-    @RequiresApi(Build.VERSION_CODES.O)
 
     lateinit var datePicker: DatePickerHelper
 
@@ -38,131 +34,96 @@ class ParentControl : AppCompatActivity() {
         val date = findViewById<TextView>(R.id.dateText)
         date.text = checkDay
 
-
         datePicker = DatePickerHelper(this, true)
+
         val datePickerButton = findViewById<Button>(R.id.datePickerButton)
         datePickerButton.setOnClickListener {
             showDatePickerDialog()
         }
 
+        val checkDatabaseHandler: CheckDatabaseHandler = CheckDatabaseHandler(this)
+
         val studentName: TextView = findViewById<TextView>(R.id.studentName)
         val situationText: TextView = findViewById<TextView>(R.id.situation)
+
         val preferences = getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
         val editor = preferences.edit()
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+
         val checkButton = findViewById<ImageView>(R.id.checkButton)
         val xButton = findViewById<ImageView>(R.id.xButton)
-
 
         if (preferences.getInt(KEY_CHECK, 1) == 1) {
             situationText.text = getString(R.string.parentCheckFeedback)
 
         } else {
             situationText.text = getString(R.string.parentXFeedback)
-
         }
 
         studentName.text = preferences.getString(KEY_NAME, "")
 
-        try {
-            val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
-            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, day DATE, studentName VARCHAR, parentCheck INT, schoolCheck INT, studentId INT)")
+        checkButton.setOnClickListener {
 
-            checkButton.setOnClickListener {
+            var id = preferences.getInt(KEY_ID, 1)
+            var student: StudentCheckModel = checkDatabaseHandler.getByDate(id, checkDay)
 
-                editor.putInt(KEY_CHECK, 1)
-                editor.apply()
-                val tempCursor = databaseCheck.rawQuery(
-                    "SELECT * FROM studentsCheck WHERE day = '${checkDay}'",
-                    null
-                )
-                val idIx = tempCursor.getColumnIndex("studentId")
-                val studentNameIx = tempCursor.getColumnIndex("studentName")
+            println("/////////////////CHECK //////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
 
-                while (tempCursor.moveToNext()) {
-                    if (tempCursor.getInt(idIx) == preferences.getInt(KEY_ID, 999)) {
-                        databaseCheck.execSQL("UPDATE studentsCheck SET parentCheck = 1 WHERE day = '${checkDay}'")
-                    } else if (tempCursor.isLast) {
-                        databaseCheck.execSQL(
-                            "INSERT INTO studentsCheck (day, studentName, parentCheck, schoolCheck, studentId) VALUES ('${checkDay}','${
-                                preferences.getString(
-                                    KEY_NAME,
-                                    ""
-                                )
-                            }',1,null,${
-                                preferences.getInt(KEY_ID, 999)
-                            })"
-                        )
-                    }
-                }
-                tempCursor.close()
+            student.parentCheck = 1
 
+            println("/////////////////CHECK 2//////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
 
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.parentCheckFeedback),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-                situationText.text = getString(R.string.parentCheckFeedback)
+            var status = checkDatabaseHandler.updateEmployee(student)
 
-                findViewById<TextView>(R.id.textView8).setTextColor(Color.parseColor("#489644"))
-                findViewById<TextView>(R.id.textView9).setTextColor(Color.parseColor("#675F59"))
-
+            if (status > -1) {
+                Toast.makeText(applicationContext, "Record Updated.", Toast.LENGTH_LONG).show()
             }
-            xButton.setOnClickListener {
 
-                editor.putInt(KEY_CHECK, 0)
-                editor.apply()
-                val tempCursor = databaseCheck.rawQuery(
-                    "SELECT * FROM studentsCheck WHERE day = '${checkDay}'",
-                    null
-                )
-                val idIx = tempCursor.getColumnIndex("studentId")
-                val studentNameIx = tempCursor.getColumnIndex("studentName")
-                while (tempCursor.moveToNext()) {
-                    if (tempCursor.getInt(idIx) == preferences.getInt(KEY_ID, 999)) {
-                        databaseCheck.execSQL("UPDATE studentsCheck SET parentCheck = 0 WHERE day = '${checkDay}'")
-                    } else if (tempCursor.isLast) {
-                        databaseCheck.execSQL(
-                            "INSERT INTO studentsCheck (day, studentName, parentCheck, schoolCheck, studentId) VALUES ('${checkDay}','${
-                                preferences.getString(
-                                    KEY_NAME,
-                                    ""
-                                )
-                            }',0,null,${
-                                preferences.getInt(KEY_ID, 999)
-                            })"
-                        )
-                    }
-                }
-                tempCursor.close()
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.parentXFeedback),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-                situationText.text = getString(R.string.parentXFeedback)
+            /* status = checkDatabaseHandler.deleteEmployee(student)
+             println("SSSSSSSSSSSSSSSSSTATUSSSSSSSSSSSSSSS: " + status)*/
 
-                findViewById<TextView>(R.id.textView8).setTextColor(Color.parseColor("#675F59"))
-                findViewById<TextView>(R.id.textView9).setTextColor(Color.parseColor("#e93b2d"))
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            editor.putInt(KEY_CHECK, 1)
+            editor.apply()
+
+            Toast.makeText(applicationContext, getString(R.string.parentCheckFeedback), Toast.LENGTH_SHORT).show()
+
+            situationText.text = getString(R.string.parentCheckFeedback)
+
+            findViewById<TextView>(R.id.textView8).setTextColor(Color.parseColor("#489644"))
+            findViewById<TextView>(R.id.textView9).setTextColor(Color.parseColor("#675F59"))
         }
 
+        xButton.setOnClickListener {
+            var id = preferences.getInt(KEY_ID, 1)
+            var student: StudentCheckModel = checkDatabaseHandler.getByDate(id, checkDay)
+
+            println("/////////////////XXXXXX//////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
+
+            student.parentCheck = 0
+
+            println("/////////////////XXXXXX 2//////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
+
+            var status = checkDatabaseHandler.updateEmployee(student)
+
+            if (status > -1) {
+                Toast.makeText(applicationContext, "Record Updated.", Toast.LENGTH_LONG).show()
+            }
+
+            editor.putInt(KEY_CHECK, 0)
+            editor.apply()
+
+            Toast.makeText(applicationContext, getString(R.string.parentXFeedback), Toast.LENGTH_SHORT).show()
+
+            situationText.text = getString(R.string.parentXFeedback)
+
+            findViewById<TextView>(R.id.textView8).setTextColor(Color.parseColor("#675F59"))
+            findViewById<TextView>(R.id.textView9).setTextColor(Color.parseColor("#e93b2d"))
+        }
     }
 
 
     @SuppressLint("Recycle")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePickerDialog() {
-
-        val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
-        databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, day DATE, studentName VARCHAR, parentCheck INT, schoolCheck INT, studentId INT)")
-
 
         val cal = Calendar.getInstance()
         val d = cal.get(Calendar.DAY_OF_MONTH)
@@ -190,27 +151,7 @@ class ParentControl : AppCompatActivity() {
                 val monthStr = if (mon < 10) "0${mon}" else "${mon}"
                 checkDay = "${year}-${monthStr}-${dayStr}"
                 dateText.text = "${year}-${monthStr}-${dayStr}"
-                /*databaseCheck.execSQL(
-                    "INSERT INTO studentsCheck (day, studentName, parentCheck, schoolCheck, studentId) VALUES ( '${year}-${monthStr}-${dayStr}','${"Enes " + LocalTime.now()}', 1, 1,999)"
-                )
-
-                val cursor: Cursor = databaseCheck.rawQuery(
-                    "SELECT * FROM studentsCheck WHERE day = '${LocalDate.now()}'",
-                    null
-                )
-                val nameIx = cursor.getColumnIndex("day")
-                val idIx = cursor.getColumnIndex("studentName")
-                println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-
-                while (cursor.moveToNext()) {
-                    println("_________________________________________________________")
-                    println(cursor.getString(nameIx) + " - " + cursor.getString(idIx))
-                    println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-                }
-                println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")*/
             }
         })
-
-
     }
 }

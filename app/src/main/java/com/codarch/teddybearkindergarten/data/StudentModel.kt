@@ -1,3 +1,3 @@
 package com.codarch.teddybearkindergarten.data
 
-data class StudentModel(val studentName: String, val parentName: String?, val phoneNumber: String?, val homeAddress: String?, val userPassword: String?)
+data class StudentModel(val id: Int?, val studentName: String?, val parentName: String?, val phone: String?, val address: String?, val password: String?)

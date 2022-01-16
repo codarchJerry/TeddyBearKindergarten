@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codarch.teddybearkindergarten.data.AdapterCheck
+import com.codarch.teddybearkindergarten.data.CheckDatabaseHandler
 import com.codarch.teddybearkindergarten.data.DatePickerHelper
-import com.codarch.teddybearkindergarten.data.StudentCheckModel
 import java.time.LocalDate
 import java.util.*
 
@@ -33,22 +33,31 @@ class CheckStudent : AppCompatActivity() {
         datePicker = DatePickerHelper(this, true)
         val datePickerButton = findViewById<Button>(R.id.datePickerButton3)
 
-        val recyclerViewCheck = findViewById<RecyclerView>(R.id.recyclerViewCheck)
-        recyclerViewCheck.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        val adapter =
-            AdapterCheck(getModels())
-
-        recyclerViewCheck.adapter = adapter
-
         datePickerButton.setOnClickListener {
             showDatePickerDialog()
-            adapter.update(getModels())
+            setupListofDataIntoRecyclerView()
         }
+
+        setupListofDataIntoRecyclerView()
     }
 
-    @SuppressLint("Recycle")
+    override fun onUserInteraction() {
+        setupListofDataIntoRecyclerView()
+        super.onUserInteraction()
+    }
+
+    private fun setupListofDataIntoRecyclerView() {
+
+        val checkDatabaseHandler: CheckDatabaseHandler = CheckDatabaseHandler(this)
+        val recyclerViewCheck = findViewById<RecyclerView>(R.id.recyclerViewCheck)
+        val adapter = AdapterCheck(checkDatabaseHandler.viewEmployee(checkDay))
+
+        recyclerViewCheck.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerViewCheck.adapter = adapter
+        adapter.update(checkDatabaseHandler.viewEmployee(checkDay))
+    }
+
+    /*@SuppressLint("Recycle")
     fun getModels(): MutableList<StudentCheckModel> {
 
         val models = mutableListOf(StudentCheckModel("", null, null, null, null))
@@ -103,14 +112,10 @@ class CheckStudent : AppCompatActivity() {
 
         return models
     }
-
+*/
     @SuppressLint("Recycle")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePickerDialog() {
-
-        val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
-        databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, day DATE, studentName VARCHAR, parentCheck INT, schoolCheck INT, studentId INT)")
-
 
         val cal = Calendar.getInstance()
         val d = cal.get(Calendar.DAY_OF_MONTH)
@@ -132,30 +137,15 @@ class CheckStudent : AppCompatActivity() {
             @SuppressLint("SetTextI18n")
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onDateSelected(dayofMonth: Int, month: Int, year: Int) {
+
                 val dayStr = if (dayofMonth < 10) "0${dayofMonth}" else "$dayofMonth"
                 val mon = month + 1
                 val monthStr = if (mon < 10) "0${mon}" else "${mon}"
+
                 checkDay = "${year}-${monthStr}-${dayStr}"
                 dateText.text = "${year}-${monthStr}-${dayStr}"
+                setupListofDataIntoRecyclerView()
                 println("tusa basildi: " + "${year}-${monthStr}-${dayStr}")
-                /*databaseCheck.execSQL(
-                    "INSERT INTO studentsCheck (day, studentName, parentCheck, schoolCheck, studentId) VALUES ( '${year}-${monthStr}-${dayStr}','${"Enes " + LocalTime.now()}', 1, 1,999)"
-                )
-
-                val cursor: Cursor = databaseCheck.rawQuery(
-                    "SELECT * FROM studentsCheck WHERE day = '${LocalDate.now()}'",
-                    null
-                )
-                val nameIx = cursor.getColumnIndex("day")
-                val idIx = cursor.getColumnIndex("studentName")
-                println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-
-                while (cursor.moveToNext()) {
-                    println("_________________________________________________________")
-                    println(cursor.getString(nameIx) + " - " + cursor.getString(idIx))
-                    println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-                }
-                println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")*/
             }
         })
 

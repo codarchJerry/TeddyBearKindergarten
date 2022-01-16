@@ -35,52 +35,18 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/datePickerButton2" />
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="148dp"
-        android:layout_height="130dp"
+        android:layout_width="140dp"
+        android:layout_height="180dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/teddybear" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="149dp"
-        android:layout_height="40dp"
-        android:fontFamily="@font/allura"
-        android:text="Teddy Bear"
-        android:textAlignment="center"
-        android:textColor="@color/title_color"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="149dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="-7dp"
-        android:fontFamily="@font/cantarell"
-        android:text="@string/kindergarten"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textColor="@color/title_color"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.122"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12"
-        app:layout_constraintVertical_bias="0.0" />
+        app:srcCompat="@drawable/logo" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -94,7 +60,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11"
         tools:context=".KindergartenControl">
 
         <androidx.recyclerview.widget.RecyclerView

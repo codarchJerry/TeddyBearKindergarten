@@ -2,7 +2,6 @@ package com.codarch.teddybearkindergarten
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -10,9 +9,10 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.codarch.teddybearkindergarten.data.StudentDatabaseHandler
+import com.codarch.teddybearkindergarten.data.StudentModel
 import java.lang.Boolean.FALSE
 import java.lang.Boolean.TRUE
-import java.time.LocalDate
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -27,8 +27,8 @@ class LoginActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.loginButton)
 
         button.setOnClickListener {
-            if (checkInfos() == true)
-                register()
+            //register()
+            addRecord()
         }
 
     }
@@ -78,8 +78,7 @@ class LoginActivity : AppCompatActivity() {
                     applicationContext,
                     "Password must contain at least :\n1 Lowercase \n1 Uppercase \n1 Number\nMinimum 8 Character\n No special characters",
                     Toast.LENGTH_SHORT,
-                )
-                    .show()
+                ).show()
                 return FALSE
             }
             else -> return TRUE
@@ -94,12 +93,13 @@ class LoginActivity : AppCompatActivity() {
         pattern = Pattern.compile(PASSWORD_PATTERN)
         matcher = pattern.matcher(password)
         return matcher.matches().not()
+
     }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("Recycle")
-    private fun register() {
+    /*private fun register() {
 
         try {
             val database = this.openOrCreateDatabase("Students", MODE_PRIVATE, null)
@@ -137,15 +137,14 @@ class LoginActivity : AppCompatActivity() {
                 val tempIdIx = tempCursor1.getColumnIndex("id")
 
                 while (tempCursor1.moveToNext()) {
-                    if(tempCursor1.isLast){
+                    if (tempCursor1.isLast) {
                         databaseCheck.execSQL(
                             "INSERT INTO studentsCheck (day, studentName, parentCheck, schoolCheck, studentId) VALUES ('${
                                 LocalDate.now()
-                            }','${studentName}', null, null,${tempCursor1.getInt(tempIdIx) })"
+                            }','${studentName}', null, null,${tempCursor1.getInt(tempIdIx)})"
                         )
                         break
-                    }
-                    else
+                    } else
                         continue
 
                 }
@@ -217,7 +216,7 @@ class LoginActivity : AppCompatActivity() {
                             "INSERT INTO studentsCheck (day, studentName, parentCheck, schoolCheck, studentId) VALUES ('${
                                 LocalDate.now()
                             }','${studentName}', null, null,${
-                                cursor.getInt(idIx)+1
+                                cursor.getInt(idIx) + 1
                             })"
                         )
                         editor.putString(KEY_NAME, studentName)
@@ -248,6 +247,37 @@ class LoginActivity : AppCompatActivity() {
 
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }*/
+
+    private fun addRecord() {
+
+        val preferences = getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+        val editor = preferences.edit()
+
+        val studentName = findViewById<EditText>(R.id.studentName).text.toString()
+        val parentName = findViewById<EditText>(R.id.parentName).text.toString()
+        val phone = findViewById<EditText>(R.id.parentPhoneNumber).text.toString()
+        val address = findViewById<EditText>(R.id.homeAddress).text.toString()
+        val password = findViewById<EditText>(R.id.password).text.toString()
+
+        val databaseHandler: StudentDatabaseHandler = StudentDatabaseHandler(this)
+
+        var student: StudentModel = StudentModel(0, studentName, parentName, phone, address, password)
+
+        if (checkInfos() == true) {
+            if (databaseHandler.isExists(student)) {
+                Toast.makeText(applicationContext, "Bu öğrenci zaten mevcut", Toast.LENGTH_SHORT).show()
+            } else {
+                val status = databaseHandler.addEmployee(student)
+                if (status > -1) {
+                    editor.putInt(KEY_ID, databaseHandler.getByName(studentName, parentName).id.toString().toInt())
+                    editor.putString(KEY_NAME, studentName)
+                    editor.putString(KEY_PARENT_NAME, parentName)
+                    editor.apply()
+                    Toast.makeText(applicationContext, "Kayıt Başarılı", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 }
