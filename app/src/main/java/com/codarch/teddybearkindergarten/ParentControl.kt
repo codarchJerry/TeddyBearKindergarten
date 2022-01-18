@@ -66,11 +66,7 @@ class ParentControl : AppCompatActivity() {
             var id = preferences.getInt(KEY_ID, 1)
             var student: StudentCheckModel = checkDatabaseHandler.getByDate(id, checkDay)
 
-            println("/////////////////CHECK //////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
-
             student.parentCheck = 1
-
-            println("/////////////////CHECK 2//////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
 
             var status = checkDatabaseHandler.updateEmployee(student)
 
@@ -78,8 +74,6 @@ class ParentControl : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Record Updated.", Toast.LENGTH_LONG).show()
             }
 
-            /* status = checkDatabaseHandler.deleteEmployee(student)
-             println("SSSSSSSSSSSSSSSSSTATUSSSSSSSSSSSSSSS: " + status)*/
 
             editor.putInt(KEY_CHECK, 1)
             editor.apply()
@@ -96,11 +90,7 @@ class ParentControl : AppCompatActivity() {
             var id = preferences.getInt(KEY_ID, 1)
             var student: StudentCheckModel = checkDatabaseHandler.getByDate(id, checkDay)
 
-            println("/////////////////XXXXXX//////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
-
             student.parentCheck = 0
-
-            println("/////////////////XXXXXX 2//////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
 
             var status = checkDatabaseHandler.updateEmployee(student)
 

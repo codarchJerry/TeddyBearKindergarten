@@ -42,6 +42,7 @@ class AdapterCheck(private var studentList: MutableList<StudentCheckModel>) : Re
     }
 
     override fun onBindViewHolder(holder: ModelViewHolder, position: Int) {
+
         holder.bindItems(studentList[position])
 
     }

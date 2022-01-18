@@ -3,6 +3,7 @@ package com.codarch.teddybearkindergarten.data
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,12 +57,11 @@ class AdapterActivity(
         val xButton: Button = holder.itemView.findViewById<Button>(R.id.xButton)
         val checkButton: Button = holder.itemView.findViewById<Button>(R.id.checkButton)
 
-        /*xButton.setOnClickListener {
+        xButton.setOnClickListener {
 
             try {
                 adapterCallback!!.onClickX(activityList[position])
-                holder.itemView.findViewById<TextView>(R.id.activityName)
-                    .setTextColor(Color.parseColor("#e93b2d"))
+                holder.itemView.findViewById<TextView>(R.id.activityName).setTextColor(Color.parseColor("#e93b2d"))
 
             } catch (e: ClassCastException) {
             }
@@ -71,11 +71,10 @@ class AdapterActivity(
 
             try {
                 adapterCallback!!.onClickCheck(activityList[position])
-                holder.itemView.findViewById<TextView>(R.id.activityName)
-                    .setTextColor(Color.parseColor("#489644"))
+                holder.itemView.findViewById<TextView>(R.id.activityName).setTextColor(Color.parseColor("#489644"))
             } catch (e: ClassCastException) {
             }
-        }*/
+        }
     }
 
     interface AdapterCallback {
@@ -88,6 +87,4 @@ class AdapterActivity(
         activityList = modelList
         notifyDataSetChanged()
     }
-
-
 }

@@ -1,7 +1,11 @@
 package com.codarch.teddybearkindergarten.data
 
+import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 
 //creating the database logic, extending the SQLiteOpenHelper base class
@@ -10,14 +14,14 @@ class ActivityCheckDatabaseHandler(context: Context) :
 
     companion object {
         private const val DATABASE_VERSION = 1
-        private const val DATABASE_NAME = "CheckDatabase"
+        private const val DATABASE_NAME = "ActivityCheckDatabase"
 
-        private const val TABLE_CONTACTS = "checkTable"
+        private const val TABLE_CONTACTS = "activityCheckTable"
 
         private const val KEY_ID = "_id"
-        private const val KEY_DATE = "date"
-        private const val KEY_STUDENT_NAME = "studentName"
-        private const val KEY_PARENT_NAME = "parentName"
+        private const val KEY_ACTIVITY_ID = "activityId"
+        private const val KEY_PARENT_CONTROL = "parentControl"
+        private const val KEY_STUDENT_ID = "studentId"
 
 
     }
@@ -26,8 +30,9 @@ class ActivityCheckDatabaseHandler(context: Context) :
         //creating table with fields
         val CREATE_CONTACTS_TABLE = ("CREATE TABLE " + TABLE_CONTACTS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_DATE + " VARCHAR,"
-                + KEY_STUDENT_NAME + " VARCHAR," + ")")
+                + KEY_ACTIVITY_ID + " INT,"
+                + KEY_PARENT_CONTROL + " INT,"
+                + KEY_STUDENT_ID + " INT" + ")")
         db?.execSQL(CREATE_CONTACTS_TABLE)
 
     }
@@ -38,12 +43,13 @@ class ActivityCheckDatabaseHandler(context: Context) :
         onCreate(db)
     }
 
-    /*fun addEmployee(emp: StudentCheckModel): Long {
+    fun addEmployee(emp: ActivityCheckModel): Long {
         val db = this.writableDatabase
 
         val contentValues = ContentValues()
-        contentValues.put(KEY_DATE, emp.date)
-        contentValues.put(KEY_STUDENT_NAME, emp.studentName)
+        contentValues.put(KEY_ACTIVITY_ID, emp.activityId)
+        contentValues.put(KEY_PARENT_CONTROL, emp.parentControl)
+        contentValues.put(KEY_STUDENT_ID, emp.studentId)
 
         // Inserting employee details using insert query.
         val success = db.insert(TABLE_CONTACTS, null, contentValues)
@@ -51,13 +57,13 @@ class ActivityCheckDatabaseHandler(context: Context) :
 
         db.close() // Closing database connection
         return success
-    }*/
+    }
 
-/*
+
     @SuppressLint("Range")
-    fun viewEmployee(day: String): MutableList<StudentCheckModel> {
+    fun viewEmployee(): MutableList<ActivityCheckModel> {
 
-        val empList: MutableList<StudentCheckModel> = ArrayList()
+        val empList: MutableList<ActivityCheckModel> = ArrayList()
 
         // Query to select all the records from the table.
         val selectQuery = "SELECT  * FROM $TABLE_CONTACTS"
@@ -75,55 +81,50 @@ class ActivityCheckDatabaseHandler(context: Context) :
         }
 
         var id: Int
-        var date: String
-        var studentName: String
-        var parentName: String
-        var parentCheck: Int
-        var schoolCheck: Int
+        var activityId: Int
+        var parentControl: Int
         var studentId: Int
+
 
         if (cursor.moveToFirst()) {
             do {
-                if (day == cursor.getString(cursor.getColumnIndex(KEY_DATE))) {
-                    id = cursor.getInt(cursor.getColumnIndex(KEY_ID))
-                    date = cursor.getString(cursor.getColumnIndex(KEY_DATE))
-                    studentName = cursor.getString(cursor.getColumnIndex(KEY_STUDENT_NAME))
-                    parentName = cursor.getString(cursor.getColumnIndex(KEY_PARENT_NAME))
+                id = cursor.getInt(cursor.getColumnIndex(KEY_ID))
+                activityId = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVITY_ID))
+                parentControl = cursor.getInt(cursor.getColumnIndex(KEY_PARENT_CONTROL))
+                studentId = cursor.getInt(cursor.getColumnIndex(KEY_STUDENT_ID))
 
-
-                    val emp = StudentCheckModel(date, studentName, parentName, parentCheck, schoolCheck, studentId)
-                    empList.add(emp)
-                }
-
+                val emp = ActivityCheckModel(id, activityId, parentControl, studentId)
+                empList.add(emp)
 
             } while (cursor.moveToNext())
         }
         return empList
     }
 
-    fun updateEmployee(emp: StudentCheckModel): Int {
+    fun updateEmployee(emp: ActivityCheckModel): Int {
         val db = this.writableDatabase
+
         val contentValues = ContentValues()
-
-        println("-" + emp.date + " -" + emp.studentId + "- " + emp.studentName + "- " + emp.parentName + "- " + emp.parentCheck + " -" + emp.schoolCheck)
-
-        contentValues.put(KEY_DATE, emp.date)
-        contentValues.put(KEY_STUDENT_NAME, emp.studentName)
-        contentValues.put(KEY_PARENT_NAME, emp.parentName)
-
+        contentValues.put(KEY_ACTIVITY_ID, emp.activityId)
+        contentValues.put(KEY_PARENT_CONTROL, emp.parentControl)
+        contentValues.put(KEY_STUDENT_ID, emp.studentId)
 
         println(contentValues)
 
         //val success = db.update(TABLE_CONTACTS, contentValues, " ${KEY_DATE} = ${emp.date} AND ${KEY_STUDENT_ID} = ${emp.studentId}", null)
-        val success = db.update(TABLE_CONTACTS, contentValues, KEY_DATE + " = ? AND ", arrayOf(emp.date, emp.studentId.toString()))
+        val success = db.update(
+            TABLE_CONTACTS,
+            contentValues,
+            KEY_STUDENT_ID + " = ? AND " + KEY_ACTIVITY_ID + " = ?",
+            arrayOf(emp.studentId.toString(), emp.activityId.toString())
+        )
         //2nd argument is String containing nullColumnHack
-        println("/////////////////UPDATE////////////////////" + emp.studentName + " - " + emp.date + " - " + emp.parentCheck + " - Success: " + success)
 
         // Closing database connection
         db.close()
         return success
     }
-*/
+
     /*fun deleteEmployee(emp: StudentCheckModel): Int {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -137,8 +138,8 @@ class ActivityCheckDatabaseHandler(context: Context) :
         return success
     }*/
 
-    /*@SuppressLint("Range")
-    fun isExists(emp: StudentCheckModel): Boolean {
+    @SuppressLint("Range")
+    fun isExists(emp: ActivityCheckModel): Boolean {
 
         // Query to select all the records from the table.
         val selectQuery = "SELECT  * FROM $TABLE_CONTACTS"
@@ -156,9 +157,8 @@ class ActivityCheckDatabaseHandler(context: Context) :
 
         if (cursor.moveToFirst()) {
             do {
-                if (emp.studentName == cursor.getString(cursor.getColumnIndex(KEY_STUDENT_NAME)) &&
-                    emp.parentName == cursor.getString(cursor.getColumnIndex(KEY_PARENT_NAME)) &&
-                    emp.date == cursor.getString(cursor.getColumnIndex(KEY_DATE))
+                if (emp.activityId == cursor.getInt(cursor.getColumnIndex(KEY_ACTIVITY_ID)) &&
+                    emp.studentId == cursor.getInt(cursor.getColumnIndex(KEY_STUDENT_ID))
                 ) {
                     return true
                 }
@@ -168,17 +168,15 @@ class ActivityCheckDatabaseHandler(context: Context) :
     }
 
     @SuppressLint("Range")
-    fun getByDate(id: Int?, day: String): StudentCheckModel {
+    fun getById(activityIdCheck: Int?, studentIdCheck: Int?): ActivityCheckModel {
 
         val selectQuery = "SELECT  * FROM $TABLE_CONTACTS"
 
         val db = this.readableDatabase
 
-        var date: String
-        var studentName: String
-        var parentName: String
-        var parentCheck: Int
-        var schoolCheck: Int
+        var id: Int
+        var activityId: Int
+        var parentControl: Int
         var studentId: Int
 
         // Cursor is used to read the record one by one. Add them to data model class.
@@ -188,34 +186,27 @@ class ActivityCheckDatabaseHandler(context: Context) :
             cursor = db.rawQuery(selectQuery, null)
         } catch (e: SQLiteException) {
             db.execSQL(selectQuery)
-            return StudentCheckModel(null, null, null, null, null, null)
+            return ActivityCheckModel(null, null, null, null)
         }
-
-        println("++++++++++++++++++++++++++++++++++++++++++++++++++++" + day + "++++++++++++++++++++++++++++++++++++")
 
         if (cursor.moveToFirst()) {
             do {
-                if (id == cursor.getInt(cursor.getColumnIndex(KEY_STUDENT_ID)) && day == cursor.getString(cursor.getColumnIndex(KEY_DATE))) {
+                if (activityIdCheck == cursor.getInt(cursor.getColumnIndex(KEY_ACTIVITY_ID)) && studentIdCheck == cursor.getInt(cursor.getColumnIndex(KEY_STUDENT_ID))) {
 
-                    println("/////////////////GETBYDATE////////////////////")
-
-                    date = cursor.getString(cursor.getColumnIndex(KEY_DATE))
-                    studentName = cursor.getString(cursor.getColumnIndex(KEY_STUDENT_NAME))
-                    parentName = cursor.getString(cursor.getColumnIndex(KEY_PARENT_NAME))
-                    parentCheck = cursor.getInt(cursor.getColumnIndex(KEY_PARENT_CHECK))
-                    schoolCheck = cursor.getInt(cursor.getColumnIndex(KEY_SCHOOL_CHECK))
+                    id = cursor.getInt(cursor.getColumnIndex(KEY_ID))
+                    activityId = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVITY_ID))
+                    parentControl = cursor.getInt(cursor.getColumnIndex(KEY_PARENT_CONTROL))
                     studentId = cursor.getInt(cursor.getColumnIndex(KEY_STUDENT_ID))
 
-                    println("-" + date + " " + studentId + " " + studentName + " " + parentName + " " + parentCheck + " " + schoolCheck)
-
-                    val emp = StudentCheckModel(date, studentName, parentName, parentCheck, schoolCheck, studentId)
-
+                    val emp = ActivityCheckModel(id, activityId, parentControl, studentId)
                     return emp
                 }
+
             } while (cursor.moveToNext())
         }
-        return StudentCheckModel(null, null, null, null, null, null)
+
+        return ActivityCheckModel(null, null, null, null)
     }
-*/
+
 }
 

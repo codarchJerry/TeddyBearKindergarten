@@ -11,10 +11,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.codarch.teddybearkindergarten.data.CheckDatabaseHandler
-import com.codarch.teddybearkindergarten.data.StudentCheckModel
-import com.codarch.teddybearkindergarten.data.StudentDatabaseHandler
-import com.codarch.teddybearkindergarten.data.StudentModel
+import com.codarch.teddybearkindergarten.data.*
 import java.time.LocalDate
 import java.util.*
 import android.os.Bundle as Bundle1
@@ -38,15 +35,7 @@ class MainActivity : AppCompatActivity() {
             ShowLanguageDialog()
         }
 
-
-        val preferences = getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
-        /*
-        var sit = "Gelecek"
-        if (preferences.getInt(KEY_CHECK, 1) == 0)
-            sit = "Gelmeyecek"
-
-        Toast.makeText(applicationContext, "Öğrenci İsmi : ${preferences.getString(KEY_NAME, "")}\n", Toast.LENGTH_SHORT).show()*/
-        checkListCreator()
+        //checkListCreator()
 
     }
 
@@ -89,12 +78,13 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     fun activities(view: View) {
         val intent = Intent(
             applicationContext,
             Activities::class.java
         )
+        activityCheckListCreator()
         startActivity(intent)
     }
 
@@ -137,10 +127,9 @@ class MainActivity : AppCompatActivity() {
         val resources: Resources = context.resources
         resources.displayMetrics
 
-        //val config: Configuration = Configuration()
-        //config.setLocale(locale)
+        config.setLocale(locale)
 
-        // baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -197,6 +186,35 @@ class MainActivity : AppCompatActivity() {
 
                 if (status > -1) {
                     Toast.makeText(applicationContext, "Database Check", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun activityCheckListCreator() {
+
+        val studentDatabaseHandler: StudentDatabaseHandler = StudentDatabaseHandler(this)
+        val activityDatabaseHandler: ActivityDatabaseHandler = ActivityDatabaseHandler(this)
+
+        val activityCheckDatabaseHandler: ActivityCheckDatabaseHandler = ActivityCheckDatabaseHandler(this)
+
+        val studentList: MutableList<StudentModel> = studentDatabaseHandler.viewEmployee()
+        val activityList: MutableList<ActivityModel> = activityDatabaseHandler.viewEmployee()
+
+        var activityCheck: ActivityCheckModel
+
+        for (i in studentList) {
+            for (j in activityList) {
+
+                activityCheck = ActivityCheckModel(0, j.id, null, i.id)
+
+                if (activityCheckDatabaseHandler.isExists(activityCheck).not()) {
+
+                    val status = activityCheckDatabaseHandler.addEmployee(activityCheck)
+
+                    if (status > -1) {
+                        Toast.makeText(applicationContext, "Activities Database Check", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

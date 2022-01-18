@@ -59,7 +59,6 @@ class CheckDatabaseHandler(context: Context) :
         contentValues.put(KEY_SCHOOL_CHECK, emp.schoolCheck)
         contentValues.put(KEY_STUDENT_ID, emp.studentId)
 
-
         // Inserting employee details using insert query.
         val success = db.insert(TABLE_CONTACTS, null, contentValues)
         //2nd argument is String containing nullColumnHack
@@ -122,8 +121,6 @@ class CheckDatabaseHandler(context: Context) :
         val db = this.writableDatabase
         val contentValues = ContentValues()
 
-        println("-" + emp.date + " -" + emp.studentId + "- " + emp.studentName + "- " + emp.parentName + "- " + emp.parentCheck + " -" + emp.schoolCheck)
-
         contentValues.put(KEY_DATE, emp.date)
         contentValues.put(KEY_STUDENT_NAME, emp.studentName)
         contentValues.put(KEY_PARENT_NAME, emp.parentName)
@@ -136,7 +133,6 @@ class CheckDatabaseHandler(context: Context) :
         //val success = db.update(TABLE_CONTACTS, contentValues, " ${KEY_DATE} = ${emp.date} AND ${KEY_STUDENT_ID} = ${emp.studentId}", null)
         val success = db.update(TABLE_CONTACTS, contentValues, KEY_DATE + " = ? AND " + KEY_STUDENT_ID + " = ?", arrayOf(emp.date, emp.studentId.toString()))
         //2nd argument is String containing nullColumnHack
-        println("/////////////////UPDATE////////////////////" + emp.studentName + " - " + emp.date + " - " + emp.parentCheck + " - Success: " + success)
 
         // Closing database connection
         db.close()
@@ -210,13 +206,11 @@ class CheckDatabaseHandler(context: Context) :
             return StudentCheckModel(null, null, null, null, null, null)
         }
 
-        println("++++++++++++++++++++++++++++++++++++++++++++++++++++" + day + "++++++++++++++++++++++++++++++++++++")
 
         if (cursor.moveToFirst()) {
             do {
                 if (id == cursor.getInt(cursor.getColumnIndex(KEY_STUDENT_ID)) && day == cursor.getString(cursor.getColumnIndex(KEY_DATE))) {
 
-                    println("/////////////////GETBYDATE////////////////////")
 
                     date = cursor.getString(cursor.getColumnIndex(KEY_DATE))
                     studentName = cursor.getString(cursor.getColumnIndex(KEY_STUDENT_NAME))
@@ -225,7 +219,6 @@ class CheckDatabaseHandler(context: Context) :
                     schoolCheck = cursor.getInt(cursor.getColumnIndex(KEY_SCHOOL_CHECK))
                     studentId = cursor.getInt(cursor.getColumnIndex(KEY_STUDENT_ID))
 
-                    println("-" + date + " " + studentId + " " + studentName + " " + parentName + " " + parentCheck + " " + schoolCheck)
 
                     val emp = StudentCheckModel(date, studentName, parentName, parentCheck, schoolCheck, studentId)
 

@@ -13,7 +13,7 @@
     android:layout_marginBottom="15dp"
     android:background="#00F31515"
     android:backgroundTint="#32FFCC80"
-    android:backgroundTintMode="add"
+    android:backgroundTintMode="src_in"
     android:drawingCacheQuality="high"
     android:foregroundGravity="center_horizontal"
     app:cardBackgroundColor="#66FFA726"
@@ -42,7 +42,7 @@
             android:layout_width="210dp"
             android:layout_height="180dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="0dp"
             app:srcCompat="@drawable/teddybear" />
 
         <TextView

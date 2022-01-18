@@ -55,98 +55,20 @@ class KindergartenControl : AppCompatActivity(), Adapter.AdapterCallback {
         adapter.update(checkDatabaseHandler.viewEmployee(checkDay))
     }
 
-
-    /*@SuppressLint("Recycle")
-    fun getModels(): MutableList<StudentCheckModel> {
-
-        val models = mutableListOf(StudentCheckModel("", null, null, null, null))
-
-        try {
-
-
-            val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
-
-
-            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, day DATE, studentName VARCHAR, parentCheck INT, schoolCheck INT, studentId INT)")
-
-            val cursor = databaseCheck.rawQuery(
-                "SELECT * FROM studentsCheck WHERE day = '${checkDay}' ORDER BY studentId ASC",
-                null
-            )
-            val dayIx = cursor.getColumnIndex("day")
-            val studentNameIx = cursor.getColumnIndex("studentName")
-            val parentCheckIx = cursor.getColumnIndex("parentCheck")
-            val schoolCheckIx = cursor.getColumnIndex("schoolCheck")
-            val studentIdIx = cursor.getColumnIndex("studentId")
-
-
-            while (cursor.moveToNext()) {
-                if (models[0].studentName == "") {
-                    models.removeAt(0)
-                    models.add(
-                        0,
-                        StudentCheckModel(
-                            cursor.getString(studentNameIx),
-                            cursor.getString(dayIx),
-                            cursor.getInt(parentCheckIx),
-                            cursor.getInt(schoolCheckIx),
-                            cursor.getInt(studentIdIx)
-                        )
-                    )
-                } else {
-                    models.add(
-                        StudentCheckModel(
-                            cursor.getString(studentNameIx),
-                            cursor.getString(dayIx),
-                            cursor.getInt(parentCheckIx),
-                            cursor.getInt(schoolCheckIx),
-                            cursor.getInt(studentIdIx)
-                        )
-                    )
-                }
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return models
-    }
-*/
     @SuppressLint("Recycle")
     override fun onClickX(student: StudentCheckModel) {
 
         val checkDatabaseHandler: CheckDatabaseHandler = CheckDatabaseHandler(this)
-
-        //val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
-        //databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, day DATE, studentName VARCHAR, parentCheck INT, schoolCheck INT, studentId INT)")
-        /*val cursor = databaseCheck.rawQuery("SELECT * FROM studentsCheck", null)
-
-
-        //variables for cursor
-        val idIx = cursor.getColumnIndex("id")
-        val dayIx = cursor.getColumnIndex("day")
-        val studentNameIx = cursor.getColumnIndex("studentName")
-        val parentCheckIx = cursor.getColumnIndex("parentCheck")
-        val schoolCheckIx = cursor.getColumnIndex("schoolCheck")*/
-
         var id: Int? = student.studentId
-
         var student: StudentCheckModel = checkDatabaseHandler.getByDate(id, checkDay)
 
-        println("/////////////////CHECK //////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
-
         student.schoolCheck = 0
-
-        println("/////////////////CHECK 2//////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
 
         var status = checkDatabaseHandler.updateEmployee(student)
 
         if (status > -1) {
             Toast.makeText(applicationContext, "Record Updated.", Toast.LENGTH_LONG).show()
         }
-
-        //databaseCheck.execSQL("UPDATE studentsCheck SET schoolCheck = 0 WHERE studentId = ${position + 1} AND day = '$checkDay'")
 
     }
 
@@ -154,36 +76,16 @@ class KindergartenControl : AppCompatActivity(), Adapter.AdapterCallback {
     override fun onClickCheck(student: StudentCheckModel) {
 
         val checkDatabaseHandler: CheckDatabaseHandler = CheckDatabaseHandler(this)
-
         var id: Int? = student.studentId
-
         var student: StudentCheckModel = checkDatabaseHandler.getByDate(id, checkDay)
 
-        println("/////////////////CHECK //////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
-
         student.schoolCheck = 1
-
-        println("/////////////////CHECK 2//////////////////// " + student.studentName + " - " + student.studentId + " - " + student.date + " - " + student.parentCheck)
 
         var status = checkDatabaseHandler.updateEmployee(student)
 
         if (status > -1) {
             Toast.makeText(applicationContext, "Record Updated.", Toast.LENGTH_LONG).show()
         }
-
-        //val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
-        //databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, day DATE, studentName VARCHAR, parentCheck INT, schoolCheck INT, studentId INT)")
-
-        /*val cursor = databaseCheck.rawQuery("SELECT * FROM studentsCheck", null)
-
-        //variables for cursor
-        val idIx = cursor.getColumnIndex("id")
-        val dayIx = cursor.getColumnIndex("day")
-        val studentNameIx = cursor.getColumnIndex("studentName")
-        val parentCheckIx = cursor.getColumnIndex("parentCheck")
-        val schoolCheckIx = cursor.getColumnIndex("schoolCheck")*/
-
-        //databaseCheck.execSQL("UPDATE studentsCheck SET schoolCheck = 1 WHERE studentId = ${position + 1} AND day = '$checkDay'")
 
     }
 
@@ -221,7 +123,6 @@ class KindergartenControl : AppCompatActivity(), Adapter.AdapterCallback {
                 checkDay = "${year}-${monthStr}-${dayStr}"
                 dateText.text = "${year}-${monthStr}-${dayStr}"
                 setupListofDataIntoRecyclerView()
-                println("tusa basildi: " + "${year}-${monthStr}-${dayStr}")
 
             }
         })

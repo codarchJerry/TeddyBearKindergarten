@@ -57,62 +57,6 @@ class CheckStudent : AppCompatActivity() {
         adapter.update(checkDatabaseHandler.viewEmployee(checkDay))
     }
 
-    /*@SuppressLint("Recycle")
-    fun getModels(): MutableList<StudentCheckModel> {
-
-        val models = mutableListOf(StudentCheckModel("", null, null, null, null))
-
-        try {
-
-            val databaseCheck = this.openOrCreateDatabase("StudentsCheck", MODE_PRIVATE, null)
-
-
-            databaseCheck.execSQL("CREATE TABLE IF NOT EXISTS studentsCheck (id INTEGER PRIMARY KEY, day DATE, studentName VARCHAR, parentCheck INT, schoolCheck INT, studentId INT)")
-
-            val cursor = databaseCheck.rawQuery(
-                "SELECT * FROM studentsCheck WHERE day = '${checkDay}' ORDER BY studentId ASC",
-                null
-            )
-
-            val dayIx = cursor.getColumnIndex("day")
-            val studentNameIx = cursor.getColumnIndex("studentName")
-            val parentCheckIx = cursor.getColumnIndex("parentCheck")
-            val schoolCheckIx = cursor.getColumnIndex("schoolCheck")
-            val studentIdIx = cursor.getColumnIndex("studentId")
-
-            while (cursor.moveToNext()) {
-                if (models[0].studentName == "") {
-                    models.removeAt(0)
-                    models.add(
-                        0,
-                        StudentCheckModel(
-                            cursor.getString(studentNameIx),
-                            cursor.getString(dayIx),
-                            cursor.getInt(parentCheckIx),
-                            cursor.getInt(schoolCheckIx),
-                            cursor.getInt(studentIdIx)
-                        )
-                    )
-                } else {
-                    models.add(
-                        StudentCheckModel(
-                            cursor.getString(studentNameIx),
-                            cursor.getString(dayIx),
-                            cursor.getInt(parentCheckIx),
-                            cursor.getInt(schoolCheckIx),
-                            cursor.getInt(studentIdIx)
-                        )
-                    )
-                }
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return models
-    }
-*/
     @SuppressLint("Recycle")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePickerDialog() {
@@ -145,7 +89,6 @@ class CheckStudent : AppCompatActivity() {
                 checkDay = "${year}-${monthStr}-${dayStr}"
                 dateText.text = "${year}-${monthStr}-${dayStr}"
                 setupListofDataIntoRecyclerView()
-                println("tusa basildi: " + "${year}-${monthStr}-${dayStr}")
             }
         })
 
